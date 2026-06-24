@@ -1,4 +1,4 @@
-name: Continuous Deployment
+zname: Continuous Deployment
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: APP_PORT,DATABASE_URL,JWT_SECRET,CORS_ORIGIN
           script: |
-            cd ~/notes-api-express
+            cd ~/hands-on-notes-api-express
             git checkout main
             git pull origin main
             cat > .env << EOF
