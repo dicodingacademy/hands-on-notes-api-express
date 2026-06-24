@@ -1,4 +1,3 @@
-
 name: Continuous Deployment
 on:
   push:
@@ -11,13 +10,25 @@ jobs:
       - name: Deploy ke EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}       
+          host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: APP_PORT,DATABASE_URL,JWT_SECRET,CORS_ORIGIN
           script: |
-            cd ~/hands-on-notes-api-express
-            git checkout main         # pastikan berada di branch yang benar
-            git pull origin main      # tarik kode terbaru
-            npm ci                    # pasang dependensi
-            npm run migrate up        # jalankan migrasi
-            pm2 reload notes-api      # reload aplikasi tanpa downtime
+            cd ~/notes-api-express
+            git checkout main
+            git pull origin main
+            cat > .env << EOF
+            PORT=$APP_PORT
+            DATABASE_URL=$DATABASE_URL
+            JWT_SECRET=$JWT_SECRET
+            CORS_ORIGIN=$CORS_ORIGIN
+            EOF
+            npm ci
+            npm run migrate up
+            pm2 reload notes-api
+        env:
+          APP_PORT: ${{ secrets.APP_PORT }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
