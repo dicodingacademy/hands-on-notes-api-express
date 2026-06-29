@@ -46,7 +46,7 @@ jobs:
             CORS_ORIGIN=$CORS_ORIGIN
             EOF
             sed -i "s|build: \.|image: ghcr.io/$GHCR_USER/notes-api-express:latest|g" docker-compose.yml
-            docker compose -f docker-compose.yml --env-file .env.docker up -d --no-deps app
+            docker compose -f docker-compose.yml --env-file .env.docker up -d
             docker compose -f docker-compose.yml --env-file .env.docker exec -T app npm run migrate up
         env:
           APP_PORT: ${{ secrets.APP_PORT }}
