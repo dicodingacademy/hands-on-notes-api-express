@@ -67,7 +67,7 @@ jobs:
           envs: APP_PORT,DATABASE_URL,JWT_SECRET,CORS_ORIGIN,GHCR_USER
           script: |
             docker pull ghcr.io/$GHCR_USER/notes-api-express:latest
-            cd ~/nds-on-notes-api-express
+            cd ~/hands-on-notes-api-express
             git checkout main
             git pull origin main
             cat > .env.docker << EOF
