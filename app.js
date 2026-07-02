@@ -8,6 +8,7 @@ const cors = require('cors');
 const healthRoutes = require('./routes/health');
 const authRoutes = require('./routes/auth');
 const notesRoutes = require('./routes/notes');
+const classifyRoutes = require('./routes/classify');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', notesRoutes);
+app.use('/api/predict', classifyRoutes);
 
 // Route tidak dikenal → 404 dengan bentuk error yang konsisten
 app.use((req, res) => {
